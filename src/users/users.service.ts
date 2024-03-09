@@ -3,13 +3,13 @@ import { CreateUserDto } from './dto/user-create.dto';
 import { UpdatePasswordDto } from './dto/user-update.dto';
 import { Database } from '../db/mock-db.service';
 import { v4 } from 'uuid';
-import { User } from '../types/user.types';
+import { UserResponse } from './dto/user-response.dto';
 
 const { usersRepository } = Database;
 
 @Injectable()
 export class UsersService {
-  createUser({ login, password }: CreateUserDto): User {
+  createUser({ login, password }: CreateUserDto): UserResponse {
     const user = {
       id: v4(),
       login: login,
