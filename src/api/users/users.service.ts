@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/user-create.dto';
 import { UpdatePasswordDto } from './dto/user-update.dto';
-import { Database } from '../db/mock-db.service';
+import { Database } from '../../db/mock-db.service';
 import { v4 } from 'uuid';
 import { UserResponse } from './dto/user-response.dto';
 

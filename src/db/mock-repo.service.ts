@@ -25,7 +25,7 @@ export class Repository<T extends { id: string }> {
       return null;
     }
 
-    return this.table.splice(index, 1);
+    this.table = this.table.splice(index, 1);
   }
 
   getIndexById({ id }: Pick<T, 'id'>) {
