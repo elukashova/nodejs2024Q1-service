@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Param,
   Delete,
   Put,
   UseInterceptors,
@@ -14,6 +13,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/user-create.dto';
 import { UpdatePasswordDto } from './dto/user-update.dto';
 import { UserResponse } from './dto/user-response.dto';
+import { UUIDParam } from '../common/pipes/uuid.pipe';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,7 +30,7 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(200)
-  getUser(@Param('id') id: string) {
+  getUser(@UUIDParam('id') id: string) {
     return new UserResponse(this.usersService.getUser(id));
   }
 
@@ -42,13 +42,13 @@ export class UsersController {
 
   @Put(':id')
   @HttpCode(200)
-  updateUser(@Param('id') id: string, @Body() body: UpdatePasswordDto) {
+  updateUser(@UUIDParam('id') id: string, @Body() body: UpdatePasswordDto) {
     return new UserResponse(this.usersService.updateUser(id, body));
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@UUIDParam('id') id: string) {
     return this.usersService.deleteUser(id);
   }
 }
