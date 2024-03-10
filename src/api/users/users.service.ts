@@ -43,6 +43,7 @@ export class UsersService {
   }
 
   deleteUser(id: string) {
-    return usersRepository.delete({ id });
+    const user = usersRepository.getOneById({ id });
+    return usersRepository.delete(user);
   }
 }

@@ -3,8 +3,9 @@ import { Database } from '../../db/mock-db.service';
 import { v4 } from 'uuid';
 import { CreateArtistDto } from './dto/artist-create.dto';
 import { Artist } from './types/artist.types';
+import { deleteRecord } from '../common/utils/delete-record.utils';
 
-const { artistsRepository } = Database;
+const { artistsRepository, tracksRepository, albumsRepository } = Database;
 
 @Injectable()
 export class ArtistsService {
@@ -27,8 +28,10 @@ export class ArtistsService {
   }
 
   deleteArtist(id: string) {
-    const deleted = artistsRepository.delete({ id });
+    const artist = artistsRepository.getOneById({ id });
+    deleteRecord(tracksRepository, 'artistId', id);
+    deleteRecord(albumsRepository, 'artistId', id);
 
-    return deleted;
+    return artistsRepository.delete(artist);
   }
 }

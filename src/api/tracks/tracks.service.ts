@@ -28,6 +28,7 @@ export class TracksService {
   }
 
   deleteTrack(id: string) {
-    return tracksRepository.delete({ id });
+    const track = tracksRepository.getOneById({ id });
+    return tracksRepository.delete(track);
   }
 }

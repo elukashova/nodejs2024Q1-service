@@ -3,8 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/album-create.dto';
 import { Database } from '../../db/mock-db.service';
 import { UpdateAlbumDto } from './dto/album-update.dto';
+import { deleteRecord } from '../common/utils/delete-record.utils';
 
-const { albumsRepository } = Database;
+const { albumsRepository, tracksRepository } = Database;
 
 @Injectable()
 export class AlbumsService {
@@ -28,6 +29,9 @@ export class AlbumsService {
   }
 
   deleteAlbum(id: string) {
-    return albumsRepository.delete({ id });
+    const album = albumsRepository.getOneById({ id });
+    deleteRecord(tracksRepository, 'albumId', id);
+
+    return albumsRepository.delete(album);
   }
 }

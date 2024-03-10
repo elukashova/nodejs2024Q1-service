@@ -19,13 +19,14 @@ export class Repository<T extends { id: string }> {
     return entity;
   }
 
-  delete({ id }: Pick<T, 'id'>) {
-    const index = this.getIndexById({ id });
-    if (!index) {
-      return null;
-    }
+  delete(entityOrEntities: T | T[]): T | T[] {
+    const entitiesToRemove = Array.isArray(entityOrEntities)
+      ? entityOrEntities
+      : [entityOrEntities];
 
-    this.table = this.table.splice(index, 1);
+    this.table = this.table.filter((ent) => !entitiesToRemove.includes(ent));
+
+    return entityOrEntities;
   }
 
   getIndexById({ id }: Pick<T, 'id'>) {
