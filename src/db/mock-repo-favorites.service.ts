@@ -1,4 +1,4 @@
-import { getRecord } from '../api/common/utils/get-record.utils';
+import { getRecord } from '../common/utils/get-record.utils';
 import { FavoritesResponse } from '../api/favorites/dto/favorites-response.dto';
 import { Favorites } from '../api/favorites/types/favorite.types';
 

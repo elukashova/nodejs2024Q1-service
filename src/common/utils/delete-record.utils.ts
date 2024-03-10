@@ -1,4 +1,4 @@
-import { Repository } from '../../../db/mock-repo.service';
+import { Repository } from '../../db/mock-repo.service';
 
 export const deleteRecord = (
   repo: Repository<{ id: string }>,

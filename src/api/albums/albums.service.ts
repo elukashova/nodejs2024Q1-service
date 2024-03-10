@@ -1,18 +1,26 @@
 import { v4 } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAlbumDto } from './dto/album-create.dto';
 import { Database } from '../../db/mock-db.service';
 import { UpdateAlbumDto } from './dto/album-update.dto';
-import { deleteRecord } from '../common/utils/delete-record.utils';
+import { deleteRecord } from '../../common/utils/delete-record.utils';
 
 const { albumsRepository, tracksRepository } = Database;
 
 @Injectable()
 export class AlbumsService {
   createAlbum(data: CreateAlbumDto) {
-    const track = { ...data, id: v4() };
+    if (!data.name || !data.year) {
+      throw new BadRequestException('Name and year are required');
+    }
 
-    return albumsRepository.add(track);
+    const album = { ...data, id: v4() };
+
+    return albumsRepository.add(album);
   }
 
   getAllAlbums() {
@@ -20,16 +28,22 @@ export class AlbumsService {
   }
 
   getAlbum(id: string) {
-    return albumsRepository.getOneById({ id });
+    const album = albumsRepository.getOneById({ id });
+    if (!album) {
+      throw new NotFoundException("Album with such id doesn't exist");
+    }
+
+    return album;
   }
 
   updateAlbum(id: string, data: UpdateAlbumDto) {
-    const track = albumsRepository.getOneById({ id });
+    const track = this.getAlbum(id);
     return albumsRepository.add({ ...track, ...data });
   }
 
   deleteAlbum(id: string) {
-    const album = albumsRepository.getOneById({ id });
+    const album = this.getAlbum(id);
+
     deleteRecord(tracksRepository, 'albumId', id);
 
     return albumsRepository.delete(album);
