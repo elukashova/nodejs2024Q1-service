@@ -16,6 +16,13 @@ git clone {repository URL}
 ```
 npm install
 ```
+```
+
+## Setting server variables
+
+```sh
+# create a .env file with PORT variable or copy from the provided example
+cp .env.example .env
 
 ## Running application
 
