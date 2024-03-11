@@ -1,9 +1,5 @@
 import { v4 } from 'uuid';
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/album-create.dto';
 import { Database } from '../../db/mock-db.service';
 import { UpdateAlbumDto } from './dto/album-update.dto';
@@ -14,10 +10,6 @@ const { albumsRepository, tracksRepository } = Database;
 @Injectable()
 export class AlbumsService {
   createAlbum(data: CreateAlbumDto) {
-    if (!data.name || !data.year) {
-      throw new BadRequestException('Name and year are required');
-    }
-
     const album = { ...data, id: v4() };
 
     return albumsRepository.add(album);

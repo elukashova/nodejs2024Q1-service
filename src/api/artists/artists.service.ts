@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Database } from '../../db/mock-db.service';
 import { v4 } from 'uuid';
 import { CreateArtistDto } from './dto/artist-create.dto';
@@ -14,10 +10,6 @@ const { artistsRepository, tracksRepository, albumsRepository } = Database;
 @Injectable()
 export class ArtistsService {
   createArtist(data: CreateArtistDto): Artist {
-    if (!data.name || !data.grammy) {
-      throw new BadRequestException('Name and grammy are required');
-    }
-
     const artist = { ...data, id: v4() };
 
     return artistsRepository.add(artist);

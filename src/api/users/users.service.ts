@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -14,13 +13,7 @@ const { usersRepository } = Database;
 
 @Injectable()
 export class UsersService {
-  createUser(data: CreateUserDto): UserResponse {
-    if (!data.login || !data.password) {
-      throw new BadRequestException('Login and password are required');
-    }
-
-    const { login, password } = data;
-
+  createUser({ login, password }: CreateUserDto): UserResponse {
     const user = {
       id: v4(),
       login: login,
@@ -40,7 +33,7 @@ export class UsersService {
   getUser(id: string) {
     const user = usersRepository.getOneById({ id });
     if (!user) {
-      throw new NotFoundException("User with such id doesn't exist");
+      throw new NotFoundException("The user with such id doesn't exist");
     }
 
     return user;
