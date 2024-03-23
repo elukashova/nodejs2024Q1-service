@@ -1,0 +1,3 @@
+FROM postgres:20.11.0
+
+EXPOSE 5432
